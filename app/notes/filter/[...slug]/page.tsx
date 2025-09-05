@@ -2,14 +2,45 @@ import { QueryClient, HydrationBoundary, dehydrate } from "@tanstack/react-query
 import { fetchNotes } from "@/lib/api";
 import NotesClient from "./Notes.client";
 import { NoteTag } from "@/types/note";
-
+import type { Metadata } from "next";
 
 type Props = {
     params: Promise<{ slug: string[] }>
 };
 
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params;
+  const tag = slug[0] === "All" ? undefined : (slug[0] as NoteTag);
+  
+  if (tag===undefined) {
+    return {
+      title: 'All Notes',
+      description: 'All categories selected',
+    };
+  }
+  return{
+    title: `${tag}`,
+    description: `The ${tag} note category is selected.`,
+    openGraph: {
+      title: `${tag}`,
+      description:`The ${tag} note category is selected.`,
+      url: "https://08-zustand-virid.vercel.app/",
+      siteName: `${tag}`,
+      images: [
+        {
+          url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
+          width: 1200,
+          height: 630,
+          alt: "NoteHub",
+        },
+      ],
+      type: 'article',
+    },
+  }
+}
+
 export default async function Notes({ params }: Props) {
-     const { slug } = await params;
+  const { slug } = await params;
   const queryClient = new QueryClient();
   const tag = slug[0] === "All" ? undefined : (slug[0] as NoteTag);
 

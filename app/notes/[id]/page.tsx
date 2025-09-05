@@ -6,6 +6,36 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const note = await fetchNoteById(params.id);
+
+  if (!note) {
+    return {
+      title: 'Note not found',
+      description: 'The requested note could not be found.',
+    };
+  }
+  const description = note.content.length > 150 ? note.content.substring(0, 150) + '...' : note.content;
+
+  return {
+    title: note.title,
+    description: note.content,
+    openGraph: {
+      title: note.title,
+      description: note.content,
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/notes/${params.id}`,
+      images: [
+        {
+          url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
+          width: 1200,
+          height: 630,
+          alt: note.title,
+        },
+      ],
+      type: 'article',
+    },
+  };
+}
 export default async function NoteDetails({ params }: Props) {
   const { id } = await params;
   const queryClient = new QueryClient();

@@ -28,7 +28,7 @@ const mutation = useMutation({
           <p className={css.content}>{note.content}</p>
           <div className={css.footer}>
               <span className={css.tag}>{note.tag}</span>
-              <Link href={`/notes/${note.id}`} >View details</Link>
+              <Link href={`/notes/${note.id}`} scroll={false} >View details</Link>
             <button 
               className={css.button}
               onClick={() => mutation.mutate(note.id)}

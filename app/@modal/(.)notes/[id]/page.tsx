@@ -6,6 +6,7 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
+
 export default async function NoteDetails({ params }: Props) {
   const { id } = await params;
   const queryClient = new QueryClient();
