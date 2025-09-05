@@ -1,7 +1,9 @@
-import { QueryClient, HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import type { Metadata } from 'next';
+import { QueryClient } from "@tanstack/react-query";
 import { fetchNotes } from "@/lib/api";
 import NotesClient from "./Notes.client";
 import { NoteTag } from "@/types/note";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 type Props = {
     params: { slug: string[] }
