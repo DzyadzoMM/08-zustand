@@ -4,7 +4,7 @@ import NotesClient from "./Notes.client";
 import { NoteTag } from "@/types/note";
 
 type Props = {
-    params: Promise<{ slug: string[] }>
+    params: { slug: string[] }
 };
 
 export async function generateMetadata({ params }: Props):Promise<Metadata> {
